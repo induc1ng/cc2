@@ -1,17 +1,12 @@
+grammar LA;
+
 
 IDENT	: ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
-
-
 NUM_INT : ('0'..'9')+;
 NUM_REAL: ('0'..'9')+ '.' ('0'..'9')+;
-
-
 CADEIA 	: '"' ( ~('"') )* '"';
-
-COMENTARIO : '{' ~('{' | '}')* '}' {}; 
-
-ESPACOS	: (' ' | '\t' | '\r' | '\n') {};
-
+COMENTARIO : '{' ~('{' | '}')* '}' -> skip;
+ESPACOS	: (' ' | '\t' | '\r' | '\n')  -> skip;
 COMENTARIO_ERRADO
     : '{' ~('\r'|'\n'|'}')* '\n' 
       { stop("Linha "+getLine()+": comentario nao fechado"); }

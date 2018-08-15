@@ -1,2 +1,0 @@
-# cc2
-Compilers 
