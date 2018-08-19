@@ -7,9 +7,9 @@ class ErrosSintaticosErrorListener(ErrorListener):
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         if offendingSymbol.text == '}':
             raise Exception(
-                'Linha ' + str(line) + ': erro sintático próximo a \'' + offendingSymbol.text)
+                'Linha ' + str(line) + ': erro sintatico proximo a \'' + offendingSymbol.text)
         raise Exception('Linha ' + str(line) +
-                        ': erro sintático próximo a \'' + offendingSymbol.text + '\'.')
+                        ': erro sintatico proximo a ' + offendingSymbol.text)
 
     def reportAmbiguity(self, recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs):
         return

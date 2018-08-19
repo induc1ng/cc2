@@ -9,10 +9,9 @@ COMENTARIO : '{' ~('{' | '}')* '}' -> skip;
 ESPACOS	: (' ' | '\t' | '\r' | '\n')  -> skip;
 COMENTARIO_ERRADO
     : '{' ~('\r'|'\n'|'}')* '\n' 
-      { stop("Linha "+getLine()+": comentario nao fechado"); }
     ;
 ERROR
-    : . { stop("Linha "+getLine()+": "+getText()+" - simbolo nao identificado"); }
+    : .
     ;
 
 programa 		:   declaracoes 'algoritmo' corpo 'fim_algoritmo'
