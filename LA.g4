@@ -1,18 +1,50 @@
 grammar LA;
 
+@members{    
+    def stop(msg):
+      raise Exception(msg)
+    
+}
 
+
+/******************************LEXICO*******************************************/
+
+// Definindo o identificador:
 IDENT	: ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '0'..'9' | '_')*;
+// Definindo numero inteiro e numero real:
 NUM_INT : ('0'..'9')+;
 NUM_REAL: ('0'..'9')+ '.' ('0'..'9')+;
+// Definindo cadeia de caracteres:
 CADEIA 	: '"' ( ~('"') )* '"';
+// Definindo comentarios:
 COMENTARIO : '{' ~('{' | '}')* '}' -> skip;
-ESPACOS	: (' ' | '\t' | '\r' | '\n')  -> skip;
-COMENTARIO_ERRADO
-    : '{' ~('\r'|'\n'|'}')* '\n' 
-    ;
-ERROR
-    : .
-    ;
+// Definindo espacos para serem ignorados:
+ESPACOS	: (' ' | '\t' | '\r' | '\n') -> skip;
+// Definindo quando ocorre erro no comentario:
+IDENT_ERRADO:
+    '[' IDENT ')'
+;
+
+// Regra para reportar erro em variável string ou numérica
+NUM_ERRADO:
+    ('0'..'9')+ ('a'..'z' | 'A'..'Z' | '_')+ 
+;
+
+// Regra oara reportar erro de comentario mal declarado
+COMENTARIO_ERRADO:
+    '{' ~('\n'|'}')* '\n' {
+        stop("Linha " + getLine() + ": comentario nao fechado");
+    }
+;
+
+// Regra geral para reportar simbolos não identificados no código
+ERROR:
+    . {
+        stop("Linha " + getLine() + ": " + getText() + " - simbolo nao identificado");
+    }
+;
+
+/*****************************SINTATICO*****************************************/
 
 programa 		:   declaracoes 'algoritmo' corpo 'fim_algoritmo'
 			;

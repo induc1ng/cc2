@@ -6,6 +6,7 @@ import glob
 from ANTLR.LALexer import *
 from ANTLR.LAParser import *
 from Sintatico import ErrosSintaticosErrorListener
+from Semantico import Semantico
 
 
 def casos_de_teste_sintatico():
@@ -30,8 +31,33 @@ def casos_de_teste_sintatico():
             parser.programa()
             print('Fim da compilacao')
         except Exception as e:
-            print(str(e)+'\nFim da compilacao')
-            outfile.write(str(e)+'Fim da compilacao')
+            print(str(e))
+            outfile.write(str(e)+'\nFim da compilacao\n')
+            pass
+
+
+def casos_de_teste_semantico():
+    with open('oi.txt', 'r') as caso_de_teste:
+        programa = caso_de_teste.read()
+        programa_input = antlr4.InputStream(programa)
+
+        lexer = LALexer(input=programa_input)
+        lexer.removeErrorListeners()
+        tokens = antlr4.CommonTokenStream(lexer=lexer)
+
+        parser = LAParser(tokens)
+
+        parser.removeErrorListeners()
+        erros_sintaticos = ErrosSintaticosErrorListener()
+        parser.addErrorListener(erros_sintaticos)
+        try:
+            programa = parser.programa()
+            analisador_semantico = Semantico()
+            analisador_semantico.visitPrograma(programa)
+            print('[SEMANTICO] Compilação finalizada')
+        except Exception as e:
+            print('[SEMANTICO] ' +
+                  str(e), file=sys.stderr)
             pass
 
 

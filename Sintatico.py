@@ -5,9 +5,9 @@ class ErrosSintaticosErrorListener(ErrorListener):
 
     # Tradução das mensagens de erro do analisador sintático e lançamento de exceção interrompendo a compilação
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-        if offendingSymbol.text == '}':
-            raise Exception(
-                'Linha ' + str(line) + ': erro sintatico proximo a \'' + offendingSymbol.text)
+        if(offendingSymbol.text == "<EOF>"):
+            raise Exception('Linha ' + str(line) +
+                            ': erro sintatico proximo a EOF')
         raise Exception('Linha ' + str(line) +
                         ': erro sintatico proximo a ' + offendingSymbol.text)
 
