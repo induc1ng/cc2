@@ -3,8 +3,8 @@ import os
 import sys
 import argparse
 import glob
-from ANTLR.LALexer import *
-from ANTLR.LAParser import *
+from ANTLR.TileMapLexer import *
+from ANTLR.TileMapParser import *
 from Sintatico import ErrosSintaticosErrorListener
 from Semantico import Semantico
 
@@ -17,11 +17,11 @@ def casos_de_teste_sintatico():
         programa = caso_de_teste.read()
         programa_input = antlr4.InputStream(programa)
 
-        lexer = LALexer(input=programa_input)
+        lexer = TileMapLexer(input=programa_input)
         lexer.removeErrorListeners()
         tokens = antlr4.CommonTokenStream(lexer=lexer)
 
-        parser = LAParser(tokens)
+        parser = TileMapParser(tokens)
 
         parser.removeErrorListeners()
         erros_sintaticos = ErrosSintaticosErrorListener()
@@ -41,11 +41,11 @@ def casos_de_teste_semantico():
         programa = caso_de_teste.read()
         programa_input = antlr4.InputStream(programa)
 
-        lexer = LALexer(input=programa_input)
+        lexer = TileMapLexer(input=programa_input)
         lexer.removeErrorListeners()
         tokens = antlr4.CommonTokenStream(lexer=lexer)
 
-        parser = LAParser(tokens)
+        parser = TileMapParser(tokens)
 
         parser.removeErrorListeners()
         erros_sintaticos = ErrosSintaticosErrorListener()
