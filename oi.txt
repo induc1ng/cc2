@@ -1,11 +1,12 @@
 map(size:20)
 quantity(size:5)
-import {
-  water{
-     path: "mario/sprite_125.png"
-     type : agua
-  }
-  commands{
+import{
+    water{
+      path: "mario/sprite_125.png"
+      type : agua
+    }
 
-  }
+}
+commands{
+  add agua 5
 }

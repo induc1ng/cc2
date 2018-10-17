@@ -1,8 +1,8 @@
-from ANTLR.LAVisitor import *
-from ANTLR.LAParser import *
+from ANTLR.TileMapVisitor import *
+from ANTLR.TileMapParser import *
 
 
-class Semantico(LAVisitor):
+class Semantico(TileMapVisitor):
 
-    def visitPrograma(self, ctx: LAParser.ProgramaContext):
+    def visitPrograma(self, ctx: TileMapParser.MapaContext):
         print(ctx.getText())

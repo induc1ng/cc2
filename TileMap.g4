@@ -9,7 +9,7 @@ WS : 		 [ \n\t\r]+ -> skip;
 /* Bloco principal */
 
 mapa:
-	'map' '(' size ')' 'quantity' '(' size ')' '{' 'import:' '{' tile? '}' 'commands' ('{'commands?'}')? '}' EOF;
+	'map' '(' size ')' 'quantity' '(' size ')' 'import' '{' tile? '}' 'commands' '{'commands?'}' EOF;
 
 /* Comandos para se utilizar para preencher / alterar o mapa , podem ser dinamicos(especiais)
    se forem criadas acoes anteriormente na importacao de tiles */
@@ -25,13 +25,13 @@ remove:
     'remove' tile NUM_INT;
 
 tile:
-    ID '{' path tipoTyle '}' recur_tiles;
+    ID '{' path 'type' ':' tipoTyle '}' recur_tiles;
 
 recur_tiles:
     tile | ;
 
 tipoTyle: 
-  'type' ':' ID;
+  ID;
 
 size:
   'size' ':' NUM_INT;

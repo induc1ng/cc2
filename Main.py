@@ -28,7 +28,7 @@ def casos_de_teste_sintatico():
         parser.addErrorListener(erros_sintaticos)
         # - Arrumar mensagem igual dos casos de teste - #
         try:
-            parser.programa()
+            parser.mapa()
             print('Fim da compilacao')
         except Exception as e:
             print(str(e))
