@@ -5,6 +5,10 @@ import{
       path: "mario/sprite_125.png"
       type : agua
     }
+    ice{
+      path: "mario/sprite_125.png"
+      type : agua
+    }
 
 }
 commands{

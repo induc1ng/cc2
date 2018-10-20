@@ -6,7 +6,7 @@ import glob
 from ANTLR.TileMapLexer import *
 from ANTLR.TileMapParser import *
 from Sintatico import ErrosSintaticosErrorListener
-from Semantico import Semantico
+from Gerador import Gerador
 
 
 def casos_de_teste_sintatico():
@@ -14,10 +14,10 @@ def casos_de_teste_sintatico():
     name = sys.argv[1]
     outfile = open(sys.argv[2], 'w')
     with open(name) as caso_de_teste:
-        programa = caso_de_teste.read()
-        programa_input = antlr4.InputStream(programa)
+        mapa = caso_de_teste.read()
+        mapa_input = antlr4.InputStream(mapa)
 
-        lexer = TileMapLexer(input=programa_input)
+        lexer = TileMapLexer(input=mapa_input)
         lexer.removeErrorListeners()
         tokens = antlr4.CommonTokenStream(lexer=lexer)
 
@@ -36,12 +36,12 @@ def casos_de_teste_sintatico():
             pass
 
 
-def casos_de_teste_semantico():
+def casos_gerador():
     with open('oi.txt', 'r') as caso_de_teste:
-        programa = caso_de_teste.read()
-        programa_input = antlr4.InputStream(programa)
+        mapa = caso_de_teste.read()
+        mapa_input = antlr4.InputStream(mapa)
 
-        lexer = TileMapLexer(input=programa_input)
+        lexer = TileMapLexer(input=mapa_input)
         lexer.removeErrorListeners()
         tokens = antlr4.CommonTokenStream(lexer=lexer)
 
@@ -51,14 +51,14 @@ def casos_de_teste_semantico():
         erros_sintaticos = ErrosSintaticosErrorListener()
         parser.addErrorListener(erros_sintaticos)
         try:
-            programa = parser.programa()
-            analisador_semantico = Semantico()
-            analisador_semantico.visitPrograma(programa)
-            print('[SEMANTICO] Compilação finalizada')
+            mapa = parser.mapa()
+            analisador_semantico = Gerador()
+            analisador_semantico.visitMap(mapa)
+            print('Compilação finalizada')
         except Exception as e:
-            print('[SEMANTICO] ' +
+            print('Erro?' +
                   str(e), file=sys.stderr)
             pass
 
 
-casos_de_teste_sintatico()
+casos_gerador()
