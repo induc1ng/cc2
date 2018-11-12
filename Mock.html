@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script type="text/javascript">
+var ctx = null;
+
+var book = new Array();
+var tile = new Array();
+
+var image = new Array();
+image[0] = new Image(40,40);
+image[1] = new Image(40,40);
+var gameMap = new Array()
+
+tile[0] = {
+    path:"http://rimworldwiki.com/images/2/26/Ground_metal_tile.png", name:'grass', type: 'floresta'};
+image[0].src = tile[0].path;
+tile[1] = {
+path:"https://d2ujflorbtfzji.cloudfront.net/key-image/d21b73d7-cfd4-4d3a-a634-19dc6e456942.png", name:'grass', type: 'floresta'};
+image[1].src = tile[1].path;
+
+gameMap[0] = [
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 1, 1, 1, 0, 1, 1, 1, 1, 0,
+	0, 1, 0, 0, 0, 1, 0, 0, 0, 0,
+	0, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+	0, 1, 0, 1, 0, 0, 0, 1, 1, 0,
+	0, 1, 0, 1, 0, 1, 0, 0, 1, 0,
+	0, 1, 0, 1, 1, 1, 1, 1, 1, 0,
+	0, 1, 0, 0, 0, 0, 0, 0, 1, 0,
+	0, 1, 1, 1, 0, 1, 1, 1, 1, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+];
+
+gameMap[1] = [
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 1, 1, 0, 1, 1, 1, 1, 0,
+	0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+	0, 0, 1, 1, 1, 1, 1, 1, 1, 0,
+	0, 0, 0, 1, 0, 0, 0, 1, 1, 0,
+	0, 0, 0, 1, 0, 1, 0, 0, 1, 0,
+	0, 0, 0, 1, 1, 1, 1, 0, 1, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 1, 1, 1, 0, 1, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+];
+
+
+gameMap[2] = [
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 1, 1, 1, 0, 1, 1, 1, 1, 0,
+	0, 1, 0, 0, 0, 1, 0, 0, 0, 0,
+	0, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+	0, 1, 0, 1, 0, 0, 0, 0, 1, 0,
+	0, 1, 0, 1, 0, 1, 0, 1, 1, 0,
+	0, 1, 0, 1, 1, 1, 1, 1, 1, 0,
+	0, 1, 0, 0, 0, 0, 0, 0, 1, 0,
+	0, 1, 1, 1, 0, 1, 1, 1, 1, 0,
+	0, 0, 0, 1, 1, 1, 1, 1, 1, 0
+];
+
+gameMap[3] = [
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 1, 1, 1, 0, 1, 1, 1, 1, 0,
+	0, 1, 0, 0, 0, 1, 0, 0, 0, 0,
+	0, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+	0, 1, 0, 1, 0, 0, 0, 1, 1, 0,
+	0, 1, 0, 1, 0, 1, 0, 0, 1, 0,
+	0, 1, 0, 1, 1, 1, 1, 1, 1, 0,
+	0, 1, 0, 0, 0, 0, 0, 0, 1, 0,
+	0, 1, 1, 1, 0, 1, 1, 1, 1, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+];
+
+var tileW = 40, tileH = 40;
+var mapW = 10, mapH = 10;
+var currentSecond = 0, frameCount = 0, framesLastSecond = 0;
+
+window.onload = function()
+{
+    drawMap(0);
+
+};
+
+function drawMap(map){
+    map = parseInt(map,10);
+    ctx = document.getElementById('game').getContext("2d");
+    ctx.font = "bold 10pt sans-serif";
+	requestAnimationFrame(drawGame(map));
+}
+
+function drawGame(map)
+{
+    console.log(map);
+
+	if(ctx==null) { return; }
+
+	var sec = Math.floor(Date.now()/1000);
+	if(sec!=currentSecond)
+	{
+		currentSecond = sec;
+		framesLastSecond = frameCount;
+		frameCount = 1;
+	}
+	else { frameCount++; }
+
+	for(var y = 0; y < mapH; ++y)
+	{
+		for(var x = 0; x < mapW; ++x)
+		{
+			switch(gameMap[map][((y*mapW)+x)])
+			{
+				case 0:
+          ctx.drawImage(image[0],x*tileW,y*tileH);
+					break;
+				default:
+					ctx.drawImage(image[1],x*tileW,y*tileH);
+			}
+
+		}
+	}
+
+	ctx.fillStyle = "#ff0000";
+	ctx.fillText("-: " + framesLastSecond, 10, 20);
+
+	requestAnimationFrame(drawGame);
+}
+</script>
+
+</head>
+<body>
+
+<select onchange="drawMap(value)">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+</select>
+
+<canvas id="game" width="400" height="400"></canvas>
+
+</body>
+</html>

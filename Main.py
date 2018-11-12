@@ -26,7 +26,6 @@ def casos_de_teste_sintatico():
         parser.removeErrorListeners()
         erros_sintaticos = ErrosSintaticosErrorListener()
         parser.addErrorListener(erros_sintaticos)
-        # - Arrumar mensagem igual dos casos de teste - #
         try:
             parser.mapa()
             print('Fim da compilacao')
