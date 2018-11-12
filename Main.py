@@ -60,4 +60,9 @@ def casos_gerador():
             pass
 
 
-casos_gerador()
+entrada = input("Deseja gerar o mapa?Y/N")
+if entrada == "Y":
+    casos_de_teste_sintatico()
+    casos_gerador()
+    
+
