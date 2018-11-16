@@ -1,6 +1,7 @@
 from ANTLR.TileMapVisitor import *
 from ANTLR.TileMapParser import *
 import numpy as np
+import random
 
 
 class Gerador(TileMapVisitor):
@@ -31,7 +32,6 @@ class Gerador(TileMapVisitor):
 
                 var image = new Array();
                 
-                {size}
                 {tiles}
                 {gameMap}
 
@@ -110,7 +110,13 @@ class Gerador(TileMapVisitor):
         
 
         for x in range(0, self.quantity):
-            self.gameMap += "gameMap["+str(x)+"]="+str(np.random.randint(self.imageCounter, size=self.size*self.size))
+            self.gameMap += "gameMap["+str(x)+"]=["
+            for j in range(0,self.size*self.size):
+                if(j==0):
+                    self.gameMap += str(random.randint(0,self.imageCounter))
+                else:
+                    self.gameMap += ","+str(random.randint(0,self.imageCounter))
+            self.gameMap+= "];\n"
             
         self.final = self.final.replace('{gameMap}',self.gameMap)
         print(self.final)
