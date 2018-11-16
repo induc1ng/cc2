@@ -107,6 +107,7 @@ class Gerador(TileMapVisitor):
         self.size = int(str(ctx.size()[0].NUM_INT()))
         self.quantity = int(str(ctx.size()[1].NUM_INT()))
         self.final = self.final.replace('{tiles}',str(self.visitTile(ctx.tile())))
+        self.select = '<select onchange="drawMap(value)">\n'
         
 
         for x in range(0, self.quantity):
@@ -117,8 +118,11 @@ class Gerador(TileMapVisitor):
                 else:
                     self.gameMap += ","+str(random.randint(0,self.imageCounter))
             self.gameMap+= "];\n"
+            self.select += '<option value="'+str(x)+'">'+str(x)+'</option>\n'
             
+        self.select += '</select>\n'
         self.final = self.final.replace('{gameMap}',self.gameMap)
+        self.final = self.final.replace('{select}',self.select)
         print(self.final)
         return 1
     
