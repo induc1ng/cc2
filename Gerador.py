@@ -8,11 +8,14 @@ class Gerador(TileMapVisitor):
     size = 0
     quantity = 0
 
+    tile = ''
+
     #Array que armazena as imagens
 
     imageArray = []
     imageCounter = 0
     tileCounter = 0
+    gameMap = ''
 
     # Geramos um texto ~final~ para que possamos gerar o arquivo HTML #
     # Replaces são feitos conforme a descida #
@@ -27,7 +30,8 @@ class Gerador(TileMapVisitor):
                 var tile = new Array();
 
                 var image = new Array();
-
+                
+                {size}
                 {tiles}
                 {gameMap}
 
@@ -102,14 +106,14 @@ class Gerador(TileMapVisitor):
     def visitMap(self, ctx: TileMapParser.MapaContext):
         self.size = int(str(ctx.size()[0].NUM_INT()))
         self.quantity = int(str(ctx.size()[1].NUM_INT()))
-
-        #Checando Tiles#
-        self.visitTile(ctx.tile())
+        self.final = self.final.replace('{tiles}',str(self.visitTile(ctx.tile())))
+        
 
         for x in range(0, self.quantity):
-            self.imageArray.append(np.random.random_integers(0, self.imageCounter, (self.size, self.size)))
-
-        print(self.imageArray)
+            self.gameMap += "gameMap["+str(x)+"]="+str(np.random.randint(self.imageCounter, size=self.size*self.size))
+            
+        self.final = self.final.replace('{gameMap}',self.gameMap)
+        print(self.final)
         return 1
     
     def visitTile(self,ctx: TileMapParser.TileContext):
@@ -117,9 +121,12 @@ class Gerador(TileMapVisitor):
         name = str(ctx.ID())
 
         if ctx is not None:
+            self.tile += "\n\ntile["+str(self.imageCounter)+"] = { \n path:"+path+", name:'"+name+"'"
+            self.tile +='};'
+            self.tile+="\nimage["+str(self.imageCounter)+"] = new Image(40,40);" + "\nimage["+str(self.imageCounter)+"].src = tile["+str(self.imageCounter)+"].path;"
             self.visitRecur_tiles(ctx.recur_tiles())
-        
-        return 1
+
+        return self.tile;
 
 
     def visitRecur_tiles(self, ctx: TileMapParser.Recur_tilesContext):
