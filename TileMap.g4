@@ -11,18 +11,15 @@ WS : 		 [ \n\t\r]+ -> skip;
 mapa:
 	'map' '(' size ')' 'quantity' '(' size ')' 'import' '{' tile? '}' 'commands' '{'commands?'}' EOF;
 
-/* Comandos para se utilizar para preencher / alterar o mapa , podem ser dinamicos(especiais)
-   se forem criadas acoes anteriormente na importacao de tiles */
+/* Comandos para se utilizar para preencher / alterar o mapa */
 
 commands:
-  (add | remove) recur_commands ;
+  (add) recur_commands ;
 
 recur_commands:  commands | ;
 
 add:
     'add' tipoTyle NUM_INT;
-remove:
-    'remove' tile NUM_INT;
 
 tile:
     ID '{' path 'type' ':' tipoTyle '}' recur_tiles;
@@ -35,9 +32,6 @@ tipoTyle:
 
 size:
   'size' ':' NUM_INT;
-
-nivel:
-  'nivel' ':' NUM_INT;
-
+  
 path:
   'path' ':' CADEIA;

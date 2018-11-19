@@ -1,16 +1,19 @@
 map(size:20)
 quantity(size:3)
 import{
-    water{
-      path: "mario/sprite_125.png"
-      type : agua
+    monstro{
+      path: "Sprites/Layer 1_sprite_083.png"
+      type : caverna
     }
-    ice{
-      path: "mario/sprite_125.png"
-      type : agua
+    bloco{
+      path: "Sprites/Layer 1_sprite_082.png"
+      type : caverna
     }
-
 }
 commands{
-  add agua 5
+  add caverna 3
 }
+
+
+
+
